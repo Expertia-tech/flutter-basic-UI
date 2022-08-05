@@ -25,7 +25,6 @@ class DetailPage extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
-
                     ),
                     color: Color(0xFFFFFFFF),
                   ),
@@ -64,6 +63,7 @@ class DetailPage extends StatelessWidget {
             ),
             automaticallyImplyLeading: false,
             pinned: true,
+            //snap: true,
             //floating: true,
             backgroundColor: Colors.grey,
             // elevation: 0,
@@ -91,6 +91,7 @@ class DetailPage extends StatelessWidget {
                   child: Text(
                     book.overview + book.overview,
                     style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+                    textAlign: TextAlign.justify,
                   ),
                 ),
               ),
@@ -165,13 +166,107 @@ class DetailPage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
+                  //height: actualHeight * 0.32,
                   height: 300,
-                  color: Color(0xFFF5F5F5),
+                  //color: Color(0xFFF5F5F5),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: books.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(right: 12),
+                            height: constraints.maxHeight,
+                            width: constraints.maxWidth * 0.30,
+                            //color: Colors.teal,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: constraints.maxHeight * 0.70,
+                                  width: constraints.maxWidth * 0.30,
+                                  //color: Color(0xFFF5F5F5),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      books[index].imageUrl,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    books[index].label,
+                                    style: TextStyle(fontSize: 14),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(
+                                    books[index].genre,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: Colors.cyan, fontSize: 13),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
           ),
+
+
+
+          // SliverToBoxAdapter(
+          //   child: Padding(
+          //     padding: EdgeInsets.all(20),
+          //     child: ClipRRect(
+          //       borderRadius: BorderRadius.circular(20),
+          //       child: Container(
+          //         height: 300,
+          //         color: Color(0xFFF5F5F5),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
+      ),
+      bottomNavigationBar: Container(
+
+        //color: Colors.transparent,
+
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  // shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(20)),
+                  primary: Colors.grey,
+                  minimumSize: Size(170, 60)),
+              onPressed: () {},
+              child: Text('Read Book'),
+            ),
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                  // shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(20)),
+                  primary: Colors.grey,
+                  minimumSize: Size(170, 60)),
+              onPressed: () {},
+              child: Text('More info'),
+            )
+          ],
+        ),
       ),
     );
   }
